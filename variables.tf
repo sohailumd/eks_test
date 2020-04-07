@@ -119,9 +119,9 @@ variable "iam_user_to_rbac_group_mappings" {
   type        = map(list(string))
   default     = { 
     [
-      "userarn"   = "arn:aws:iam::637576413111:user/cicd/svc_ansible_orchestration"
-      "username"  = "svc_ansible_orchestration"
-      "groups"    = ["system:masters"]
+      userarn   = "arn:aws:iam::637576413111:user/cicd/svc_ansible_orchestration"
+      username  = "svc_ansible_orchestration"
+      groups    = ["system:masters"]
     ]
  }
 }
