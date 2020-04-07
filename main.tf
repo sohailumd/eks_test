@@ -134,7 +134,6 @@ module "eks_cluster" {
   use_kubergrunt_verification                  = true
   configure_kubectl                            = true
   configure_openid_connect_provider            = true
-  schedule_control_plane_services_on_fargate   = true
 }
 
 
