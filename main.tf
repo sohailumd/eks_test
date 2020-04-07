@@ -132,8 +132,8 @@ module "eks_cluster" {
   kubernetes_version                           = var.kubernetes_version
   endpoint_public_access_cidrs                 = var.endpoint_public_access_cidrs
   use_kubergrunt_verification                  = false
-  configure_kubectl                            = true
-  configure_openid_connect_provider            = true
+  configure_kubectl                            = false
+  configure_openid_connect_provider            = false
   schedule_control_plane_services_on_fargate   = false
 }
 
