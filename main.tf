@@ -200,7 +200,7 @@ module "eks_k8s_role_mapping" {
   eks_worker_iam_role_arns = [module.eks_workers.eks_worker_iam_role_arn]
   iam_user_to_rbac_group_mappings = {
       "userarn"   = ["arn:aws:iam::637576413111:user/cicd/svc_ansible_orchestration"]
-      "username"  = "svc_ansible_orchestration"
+      "username"  = ["svc_ansible_orchestration"]
       "groups"    = ["system:masters"]
   }
 
