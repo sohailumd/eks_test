@@ -129,11 +129,11 @@ module "eks_cluster" {
   vpc_id                = data.aws_vpc.selected.id
   vpc_master_subnet_ids = flatten(["${data.aws_subnet_ids.eks_subnet.*.ids}"])
 
-  kubernetes_version                      = var.kubernetes_version
+  kubernetes_version                           = var.kubernetes_version
   endpoint_public_access_cidrs                 = var.endpoint_public_access_cidrs
   use_kubergrunt_verification                  = false
-  configure_kubectl                            = false
-  configure_openid_connect_provider            = false
+  configure_kubectl                            = true
+  configure_openid_connect_provider            = true
   schedule_control_plane_services_on_fargate   = false
 }
 
@@ -198,7 +198,8 @@ module "eks_k8s_role_mapping" {
   source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-k8s-role-mapping?ref=v0.19.1"
 
   eks_worker_iam_role_arns = [module.eks_workers.eks_worker_iam_role_arn]
-
+  iam_user_to_rbac_group_mappings = var.iam_user_to_rbac_group_mappings
+  
   iam_role_to_rbac_group_mappings = {
     "${aws_iam_role.example.arn}" = [var.example_iam_role_kubernetes_group_name]
     "${local.caller_real_arn}"    = ["system:masters"]
