@@ -118,8 +118,10 @@ variable "iam_user_to_rbac_group_mappings" {
   description = "Mapping of AWS IAM users to RBAC groups, where the keys are AWS ARN of IAM users and values are the mapped k8s RBAC group names as a list."
   type        = map(list(string))
   default     = { 
+    [
       "userarn"   = "arn:aws:iam::637576413111:user/cicd/svc_ansible_orchestration"
       "username"  = "svc_ansible_orchestration"
       "groups"    = ["system:masters"]
+    ]
  }
 }
