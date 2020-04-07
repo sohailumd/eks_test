@@ -198,8 +198,12 @@ module "eks_k8s_role_mapping" {
   source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-k8s-role-mapping?ref=v0.19.1"
 
   eks_worker_iam_role_arns = [module.eks_workers.eks_worker_iam_role_arn]
-  iam_user_to_rbac_group_mappings = var.iam_user_to_rbac_group_mappings
-  
+  iam_user_to_rbac_group_mappings = {
+      "userarn"   = "arn:aws:iam::637576413111:user/cicd/svc_ansible_orchestration"
+      "username"  = "svc_ansible_orchestration"
+      "groups"    = ["system:masters"]
+  }
+
   iam_role_to_rbac_group_mappings = {
     "${aws_iam_role.example.arn}" = [var.example_iam_role_kubernetes_group_name]
     "${local.caller_real_arn}"    = ["system:masters"]

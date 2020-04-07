@@ -114,6 +114,7 @@ variable "use_kubergrunt_verification" {
   default     = false
 }
 
+/*
 variable "iam_user_to_rbac_group_mappings" {
   description = "Mapping of AWS IAM users to RBAC groups, where the keys are AWS ARN of IAM users and values are the mapped k8s RBAC group names as a list."
   type        = map(list(string))
@@ -123,3 +124,4 @@ variable "iam_user_to_rbac_group_mappings" {
       groups    = ["system:masters"]
  },
 }
+*/
