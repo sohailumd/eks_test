@@ -131,7 +131,7 @@ module "eks_cluster" {
 
   kubernetes_version                           = var.kubernetes_version
   endpoint_public_access_cidrs                 = var.endpoint_public_access_cidrs
-  use_kubergrunt_verification                  = true
+  use_kubergrunt_verification                  = false
   configure_kubectl                            = true
   configure_openid_connect_provider            = true
 }
