@@ -131,8 +131,8 @@ module "eks_cluster" {
 
   kubernetes_version                           = var.kubernetes_version
   endpoint_public_access_cidrs                 = var.endpoint_public_access_cidrs
-  use_kubergrunt_verification                  = true
-  configure_kubectl                            = true
+  use_kubergrunt_verification                  = false
+  configure_kubectl                            = false
   configure_openid_connect_provider            = true
 }
 
@@ -191,7 +191,7 @@ resource "aws_security_group_rule" "allow_inbound_node_port_from_anywhere" {
 # - manage authorization for those roles using RBAC role resources in Kubernetes
 # At a minimum, we need to provide cluster node level permissions to the IAM role assumed by EKS workers.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+/*
 module "eks_k8s_role_mapping" {
 
   source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-k8s-role-mapping?ref=v0.19.1"
@@ -237,3 +237,4 @@ data "aws_iam_policy_document" "example" {
     resources = [module.eks_cluster.eks_cluster_arn]
   }
 }
+*/
