@@ -187,7 +187,7 @@ resource "aws_security_group_rule" "rule1" {
 # - manage authorization for those roles using RBAC role resources in Kubernetes
 # At a minimum, we need to provide cluster node level permissions to the IAM role assumed by EKS workers.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/*
+
 module "eks_k8s_role_mapping" {
 
   source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-k8s-role-mapping?ref=v0.19.1"
@@ -199,10 +199,10 @@ module "eks_k8s_role_mapping" {
       "groups"    = ["system:masters"]
   }
 
-  iam_role_to_rbac_group_mappings = {
-    "${aws_iam_role.example.arn}" = [var.example_iam_role_kubernetes_group_name]
-    "${local.caller_real_arn}"    = ["system:masters"]
-  }
+  #iam_role_to_rbac_group_mappings = {
+  #  "${aws_iam_role.example.arn}" = [var.example_iam_role_kubernetes_group_name]
+  #  "${local.caller_real_arn}"    = ["system:masters"]
+  #}
 
   config_map_labels = {
     "eks-cluster" = module.eks_cluster.eks_cluster_name
@@ -214,7 +214,7 @@ module "eks_k8s_role_mapping" {
 # We create example IAM roles that can be used to test and experiment with mapping different IAM roles/users to groups
 # in Kubernetes with different permissions.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+/*
 resource "aws_iam_role" "example" {
   name               = "${var.example_iam_role_name_prefix}${var.unique_identifier}"
   assume_role_policy = data.aws_iam_policy_document.allow_access_from_self.json
