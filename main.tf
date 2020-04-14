@@ -173,6 +173,17 @@ resource "aws_security_group_rule" "allow_inbound_ssh_from_anywhere" {
   security_group_id = module.eks_workers.eks_worker_security_group_id
 }
 
+
+resource "aws_security_group_rule" "rule1" {
+  protocol                 = "tcp"
+  security_group_id        = module.eks_workers.eks_worker_security_group_id
+  cidr_blocks              = ["139.126.0.0/16", "172.30.0.0/15", "100.126.0.0/16", "100.77.0.0/21", "100.81.0.0/21"]
+  from_port                = 443
+  to_port                  = 443
+  type                     = "ingress"
+  description              = "Connectivity inbound from CDK networks"
+}
+
 # Allowing access to node ports on the worker nodes for test purposes only.
 # THIS SHOULD NOT BE DONE IN PROD. INSTEAD USE LOAD BALANCERS.
 resource "aws_security_group_rule" "allow_inbound_node_port_from_anywhere" {
