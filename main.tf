@@ -136,6 +136,12 @@ module "eks_cluster" {
   configure_openid_connect_provider            = true
 }
 
+data "aws_security_group" "network_additional_sg" {
+  filter {
+    name   = "tag:color"
+    values = ["eks"]
+  }
+}
 
 module "eks_workers" {
 
@@ -152,13 +158,13 @@ module "eks_workers" {
       tags       = []
     }
   }
-
+  additional_security_group_ids                = [data.aws_security_group.network_additional_sg.id]
   cluster_instance_ami                         = data.aws_ami.eks_worker.id
   cluster_instance_type                        = "t3.medium"
   cluster_instance_keypair_name                = var.eks_worker_keypair_name
   cluster_instance_user_data                   = data.template_cloudinit_config.cloud_init.rendered
   cluster_instance_associate_public_ip_address = true
-
+   
   vpc_id = data.aws_vpc.selected.id
 }
 

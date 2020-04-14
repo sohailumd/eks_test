@@ -58,6 +58,12 @@ variable "eks_worker_keypair_name" {
   default     = null
 }
 
+variable "additional_security_group_ids" {
+  description = "A list of additional Security Groups IDs to be attached on the EKS Worker."
+  type        = list(string)
+  default     = []
+}
+
 variable "user_data_text" {
   description = "This is purely here for testing purposes. We modify the user_data_text variable at test time to make sure updates to the EKS cluster instances can be rolled out without downtime."
   type        = string
