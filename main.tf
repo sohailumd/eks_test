@@ -116,31 +116,19 @@ data "aws_eks_cluster_auth" "kubernetes_token" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# CREATE THE EKS CLUSTER IN TO THE VPC
+# CREATE THE Worker nodes
 # ---------------------------------------------------------------------------------------------------------------------
 
-module "eks_cluster" {
+# Allowing access to all CDK CIDR-Block.
 
-  source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-cluster-control-plane?ref=v0.19.1"
-
-  cluster_name                 = "eks_${var.prodid}_${var.env}"
-  enabled_cluster_log_types    = ["api"]
-
-  vpc_id                = data.aws_vpc.selected.id
-  vpc_master_subnet_ids = flatten(["${data.aws_subnet_ids.eks_subnet.*.ids}"])
-
-  kubernetes_version                           = var.kubernetes_version
-  endpoint_public_access_cidrs                 = var.endpoint_public_access_cidrs
-  use_kubergrunt_verification                  = false
-  configure_kubectl                            = false
-  configure_openid_connect_provider            = true
-}
-
-data "aws_security_group" "network_additional_sg" {
-  filter {
-    name   = "tag:color"
-    values = ["eks"]
-  }
+resource "aws_security_group_rule" "rule1" {
+  protocol                 = "tcp"
+  security_group_id        = module.eks_workers.eks_worker_security_group_id
+  cidr_blocks              = ["139.126.0.0/16", "172.30.0.0/15", "100.126.0.0/16", "100.77.0.0/21", "100.81.0.0/21"]
+  from_port                = 443
+  to_port                  = 443
+  type                     = "ingress"
+  description              = "Connectivity inbound from CDK networks"
 }
 
 module "eks_workers" {
@@ -168,16 +156,32 @@ module "eks_workers" {
   vpc_id = data.aws_vpc.selected.id
 }
 
-# Allowing access to all CDK CIDR-Block.
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE THE EKS CLUSTER IN TO THE VPC
+# ---------------------------------------------------------------------------------------------------------------------
 
-resource "aws_security_group_rule" "rule1" {
-  protocol                 = "tcp"
-  security_group_id        = module.eks_workers.eks_worker_security_group_id
-  cidr_blocks              = ["139.126.0.0/16", "172.30.0.0/15", "100.126.0.0/16", "100.77.0.0/21", "100.81.0.0/21"]
-  from_port                = 443
-  to_port                  = 443
-  type                     = "ingress"
-  description              = "Connectivity inbound from CDK networks"
+module "eks_cluster" {
+
+  source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-cluster-control-plane?ref=v0.19.1"
+
+  cluster_name                 = "eks_${var.prodid}_${var.env}"
+  enabled_cluster_log_types    = ["api"]
+
+  vpc_id                = data.aws_vpc.selected.id
+  vpc_master_subnet_ids = flatten(["${data.aws_subnet_ids.eks_subnet.*.ids}"])
+
+  kubernetes_version                           = var.kubernetes_version
+  endpoint_public_access_cidrs                 = var.endpoint_public_access_cidrs
+  use_kubergrunt_verification                  = false
+  configure_kubectl                            = false
+  configure_openid_connect_provider            = true
+}
+
+data "aws_security_group" "network_additional_sg" {
+  filter {
+    name   = "tag:color"
+    values = ["eks"]
+  }
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
