@@ -162,17 +162,7 @@ module "eks_workers" {
   vpc_id = data.aws_vpc.selected.id
 }
 
-# Allowing SSH from anywhere to the worker nodes for test purposes only.
-# THIS SHOULD NOT BE DONE IN PROD
-resource "aws_security_group_rule" "allow_inbound_ssh_from_anywhere" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = module.eks_workers.eks_worker_security_group_id
-}
-
+# Allowing access to all CDK CIDR-Block.
 
 resource "aws_security_group_rule" "rule1" {
   protocol                 = "tcp"
@@ -182,17 +172,6 @@ resource "aws_security_group_rule" "rule1" {
   to_port                  = 443
   type                     = "ingress"
   description              = "Connectivity inbound from CDK networks"
-}
-
-# Allowing access to node ports on the worker nodes for test purposes only.
-# THIS SHOULD NOT BE DONE IN PROD. INSTEAD USE LOAD BALANCERS.
-resource "aws_security_group_rule" "allow_inbound_node_port_from_anywhere" {
-  type              = "ingress"
-  from_port         = 30000
-  to_port           = 32767
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = module.eks_workers.eks_worker_security_group_id
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
