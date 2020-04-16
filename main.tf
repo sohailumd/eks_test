@@ -171,6 +171,7 @@ module "eks_cluster" {
   vpc_master_subnet_ids = flatten(["${data.aws_subnet_ids.eks_subnet.*.ids}"])
 
   kubernetes_version                           = var.kubernetes_version
+  endpoint_public_access                       = var.endpoint_public_access
   endpoint_public_access_cidrs                 = var.endpoint_public_access_cidrs
   use_kubergrunt_verification                  = false
   configure_kubectl                            = false

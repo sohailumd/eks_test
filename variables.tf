@@ -34,6 +34,11 @@ variable "endpoint_public_access_cidrs" {
   default     = ["0.0.0.0/0"]
 }
 
+variable "endpoint_public_access" {
+  description = "Whether or not to enable public API endpoints which allow access to the Kubernetes API from outside of the VPC."
+  type        = bool
+  default     = false
+}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
