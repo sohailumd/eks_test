@@ -124,7 +124,7 @@ data "aws_eks_cluster_auth" "kubernetes_token" {
 resource "aws_security_group_rule" "rule1" {
   protocol                 = "tcp"
   security_group_id        = module.eks_workers.eks_worker_security_group_id
-  cidr_blocks              = ["139.126.0.0/16", "172.30.0.0/15", "100.126.0.0/16", "100.77.0.0/21", "100.81.0.0/21", "100.66.48.0/20"]
+  cidr_blocks              = ["139.126.0.0/16", "172.30.0.0/15", "100.126.0.0/16", "100.77.0.0/21", "100.81.0.0/21", "100.66.59.179/32"]
   from_port                = 443
   to_port                  = 443
   type                     = "ingress"
@@ -192,7 +192,7 @@ data "aws_security_group" "network_additional_sg" {
 # - manage authorization for those roles using RBAC role resources in Kubernetes
 # At a minimum, we need to provide cluster node level permissions to the IAM role assumed by EKS workers.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+/*
 module "eks_k8s_role_mapping" {
 
   source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-k8s-role-mapping?ref=v0.19.1"
