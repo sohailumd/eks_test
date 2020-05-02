@@ -202,8 +202,6 @@ data "aws_security_group" "network_additional_sg" {
 # At a minimum, we need to provide cluster node level permissions to the IAM role assumed by EKS workers.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-data "aws_caller_identity" "current" {}
-
 data "aws_iam_user" "bamboo_orchestration" {
   user_name = "svc_terraform_orchestration"
 }
@@ -230,7 +228,7 @@ module "eks_k8s_role_mapping" {
     "${data.aws_iam_user.bamboo_orchestration.arn}"      = ["system:masters"]
     "${data.aws_iam_user.svc_ansible_orchestration.arn}" = ["system:masters"]
   }
-  
+
   config_map_labels = {
     "eks-cluster" = module.eks_cluster.eks_cluster_name
   }
