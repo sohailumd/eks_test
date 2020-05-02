@@ -123,7 +123,7 @@ data "aws_eks_cluster_auth" "kubernetes_token" {
 
 resource "aws_security_group_rule" "rule1" {
   protocol                 = "tcp"
-  source_security_group_id        = module.eks_cluster.eks_master_security_group_id
+  security_group_id        = module.eks_cluster.eks_master_security_group_id
   cidr_blocks              = ["139.126.0.0/16", "172.30.0.0/15", "100.126.0.0/16", "100.77.0.0/21", "100.81.0.0/21", "100.66.59.179/32"]
   from_port                = 443
   to_port                  = 443
