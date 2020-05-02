@@ -25,5 +25,5 @@ output "eks_worker_asg_names" {
 
 output "eks_worker_SG" {
   description = "Names of each ASG for the EKS worker nodes."
-  value       = module.eks_workers.eks_worker_security_group_id
+  value       = module.eks_cluster.eks_master_security_group_id
 }
