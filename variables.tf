@@ -48,7 +48,7 @@ variable "endpoint_public_access" {
 variable "kubernetes_version" {
   description = "Version of Kubernetes to use. Refer to EKS docs for list of available versions (https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html)."
   type        = string
-  default     = "1.16"
+  default     = "1.15"
 }
 
 variable "availability_zone_whitelist" {
@@ -125,14 +125,14 @@ variable "use_kubergrunt_verification" {
   default     = false
 }
 
-/*
+variable "iam_role_to_rbac_group_mappings" {
+  description = "Mapping of AWS IAM roles to RBAC groups, where the keys are AWS ARN of IAM roles and values are the mapped k8s RBAC group names as a list."
+  type        = map(list(string))
+  default     = {}
+}
+
 variable "iam_user_to_rbac_group_mappings" {
   description = "Mapping of AWS IAM users to RBAC groups, where the keys are AWS ARN of IAM users and values are the mapped k8s RBAC group names as a list."
   type        = map(list(string))
-  default     = { 
-      userarn   = "arn:aws:iam::637576413111:user/cicd/svc_ansible_orchestration"
-      username  = "svc_ansible_orchestration"
-      groups    = ["system:masters"]
- },
+  default     = {}
 }
-*/

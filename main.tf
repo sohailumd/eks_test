@@ -201,23 +201,36 @@ data "aws_security_group" "network_additional_sg" {
 # - manage authorization for those roles using RBAC role resources in Kubernetes
 # At a minimum, we need to provide cluster node level permissions to the IAM role assumed by EKS workers.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/*
-module "eks_k8s_role_mapping" {
 
-  source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-k8s-role-mapping?ref=v0.19.1"
+data "aws_caller_identity" "current" {}
+
+data "aws_iam_user" "bamboo_orchestration" {
+  user_name = "svc_terraform_orchestration"
+}
+
+data "aws_iam_user" "svc_ansible_orchestration" {
+  user_name = "svc_ansible_orchestration"
+}
+
+module "eks_k8s_role_mapping" {
+  # When using these modules in your own templates, you will need to use a Git URL with a ref attribute that pins you
+  # to a specific version of the modules, such as the following example:
+  # source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-k8s-role-mapping?ref=v0.9.6"
+  source = "../../modules/eks-k8s-role-mapping"
 
   eks_worker_iam_role_arns = [module.eks_workers.eks_worker_iam_role_arn]
-  iam_user_to_rbac_group_mappings = {
-      "userarn"   = ["arn:aws:iam::637576413111:user/cicd/svc_ansible_orchestration"]
-      "username"  = ["svc_ansible_orchestration"]
-      "groups"    = ["system:masters"]
+
+  iam_role_to_rbac_group_mappings = {
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/cdk_aws_athenaplatform_operations" = ["system:masters"]
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/cdk_aws_athenaplatform_operations" = ["system:masters"]
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/cdk_aws_athenaplatform_operations" = ["system:masters"]
   }
 
-  #iam_role_to_rbac_group_mappings = {
-  #  "${aws_iam_role.example.arn}" = [var.example_iam_role_kubernetes_group_name]
-  #  "${local.caller_real_arn}"    = ["system:masters"]
-  #}
-
+  iam_user_to_rbac_group_mappings = {
+    "${data.aws_iam_user.bamboo_orchestration.arn}"      = ["system:masters"]
+    "${data.aws_iam_user.svc_ansible_orchestration.arn}" = ["system:masters"]
+  }
+  
   config_map_labels = {
     "eks-cluster" = module.eks_cluster.eks_cluster_name
   }
