@@ -22,3 +22,8 @@ output "eks_worker_asg_names" {
   description = "Names of each ASG for the EKS worker nodes."
   value       = module.eks_workers.eks_worker_asg_names
 }
+
+output "eks_worker_SG" {
+  description = "Names of each ASG for the EKS worker nodes."
+  value       = module.eks_workers.eks_worker
+}
