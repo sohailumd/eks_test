@@ -48,7 +48,7 @@ variable "endpoint_public_access" {
 variable "kubernetes_version" {
   description = "Version of Kubernetes to use. Refer to EKS docs for list of available versions (https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html)."
   type        = string
-  default     = "1.15"
+  default     = "1.16"
 }
 
 variable "availability_zone_whitelist" {

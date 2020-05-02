@@ -23,7 +23,7 @@ output "eks_worker_asg_names" {
   value       = module.eks_workers.eks_worker_asg_names
 }
 
-output "eks_worker_SG" {
+output "eks_master_security_group_id" {
   description = "Names of each ASG for the EKS worker nodes."
   value       = module.eks_cluster.eks_master_security_group_id
 }

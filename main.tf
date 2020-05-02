@@ -22,6 +22,16 @@ provider "aws" {
   region = var.aws_region
 }
 
+terraform {
+  backend "s3" {
+    encrypt        = true
+    region         = "us-west-2"
+    bucket         = "terraform-cdk-aws-athenaplatform-dev"
+    dynamodb_table = "terraform-cdk-aws-athenaplatform-dev"
+    key            = "athena/eks/eks_${prodid}_${env}/terraform.tfstate"
+  }
+}
+
 data "aws_availability_zones" "available" {
 }
 
