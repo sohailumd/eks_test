@@ -120,17 +120,17 @@ data "aws_eks_cluster_auth" "kubernetes_token" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 # Allowing access to all CDK CIDR-Block.
-/*
+
 resource "aws_security_group_rule" "rule1" {
   protocol                 = "tcp"
-  security_group_id        = "${module.eks_workers.eks_worker_security_group_id}"
+  source_security_group_id        = "${module.eks_workers.eks_worker_security_group_id}"
   cidr_blocks              = ["139.126.0.0/16", "172.30.0.0/15", "100.126.0.0/16", "100.77.0.0/21", "100.81.0.0/21", "100.66.59.179/32"]
   from_port                = 443
   to_port                  = 443
   type                     = "ingress"
   description              = "Connectivity inbound from CDK networks"
 }
-*/
+
 module "eks_workers" {
 
   source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-cluster-workers?ref=v0.19.1"
