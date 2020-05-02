@@ -213,8 +213,8 @@ data "aws_iam_user" "svc_ansible_orchestration" {
 module "eks_k8s_role_mapping" {
   # When using these modules in your own templates, you will need to use a Git URL with a ref attribute that pins you
   # to a specific version of the modules, such as the following example:
-  # source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-k8s-role-mapping?ref=v0.9.6"
-  source = "../../modules/eks-k8s-role-mapping"
+  source = "git::git@github.com:gruntwork-io/terraform-aws-eks.git//modules/eks-k8s-role-mapping?ref=v0.19.1"
+  #source = "../../modules/eks-k8s-role-mapping"
 
   eks_worker_iam_role_arns = [module.eks_workers.eks_worker_iam_role_arn]
 
