@@ -28,7 +28,6 @@ terraform {
     region         = "us-west-2"
     bucket         = "terraform-cdk-aws-athenaplatform-dev"
     dynamodb_table = "terraform-cdk-aws-athenaplatform-dev"
-    key            = "athena/eks/eks_${var.prodid}_${var.env}/terraform.tfstate"
   }
 }
 
