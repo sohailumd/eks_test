@@ -220,7 +220,7 @@ module "eks_k8s_role_mapping" {
 
   iam_role_to_rbac_group_mappings = {
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/cdk_aws_athenaplatform_operations"     = ["system:masters"]
-    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/cdk_aws_athenaplatform_developers"     = ["system:masters"]
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/cdk_aws_athenaplatform_developers"     = ["${(var.env == "dev" ? "admin-role" : "read-role")}"]
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/cdk_aws_athenaplatform_administrators" = ["system:masters"]
   }
 
